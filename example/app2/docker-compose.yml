@@ -1,0 +1,32 @@
+# docker-compose.yml
+# app2, version demo
+# Auteur : BRULEBOIS Loïc
+
+# Liste des services
+services:
+
+  # Front de l'application
+  app2_front:
+    image: httpd
+    container_name: app2_front
+    restart: always
+    networks:
+      - apps_front
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - ./front/www/:/usr/local/apache2/htdocs/
+    labels:
+      - traefik.http.routers.app2front.rule=(Host(`localhost`) && PathPrefix(`/app2/`))
+      - traefik.http.middlewares.prefix-app2front.stripprefix.prefixes=/app2
+      - traefik.http.routers.app2front.middlewares=prefix-app2front
+      - traefik.http.routers.app2front.entrypoints=http
+      - traefik.docker.network=apps_front
+
+# Liste des réseaux
+networks:
+
+  # apps_front - 8.0.1.0/26
+  apps_front:
+    name: apps_front
+    external: true

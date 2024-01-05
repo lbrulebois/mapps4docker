@@ -1,0 +1,33 @@
+defaultEntryPoints = ["http", "https"]
+
+[global]
+  sendAnonymousUsage = false
+  checkNewVersion = false
+
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+  [entryPoints.https]
+    address = ":443"
+  [entryPoints.dashboard]
+    address = ":8080"
+  
+[api]
+
+[providers]
+  [providers.docker]
+    endpoint = "unix:///var/run/docker.sock"
+    watch = true
+    exposedbydefault = true
+  [providers.file]
+    directory = "/etc/traefik"
+    watch = true
+
+[log]
+  filePath = "/log/traefik.log"
+  format = "json"
+  level = "DEBUG"
+
+[accessLog]
+  filePath = "/log/access.log"
+  format = "json"

@@ -1,0 +1,3 @@
+example/root/docker-compose.yml;root
+example/app1/docker-compose.yml;myapp
+example/app2/docker-compose.yml;appli

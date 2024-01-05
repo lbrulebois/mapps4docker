@@ -1,0 +1,53 @@
+# docker-compose.yml
+# mapps4docker, version demo
+# Auteur : BRULEBOIS Loïc
+
+# Liste des services
+services:
+  
+  # Proxy en charge de la gestion de flux
+  proxy:
+    image: traefik
+    container_name: proxy
+    restart: always
+    command: --api.insecure=true --providers.docker
+    networks:
+      - proxy
+      - apps_front
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/traefik.toml:/etc/traefik/traefik.toml
+    labels:
+      - traefik.http.routers.api.rule=Host(`localhost`)
+      - traefik.http.routers.api.service=api@internal
+      - traefik.http.routers.api.entrypoints=dashboard
+
+# Liste des réseaux
+networks:
+
+  # proxy - 8.0.0.0/27
+  # 8.0.0.1 > 8.0.0.30
+  # Pour les conteneurs dans la zone "proxy"
+  proxy:
+    name: proxy
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 8.0.0.0/27
+
+  # apps_front - 8.0.1.0/26
+  # 8.0.1.1 > 8.0.1.62
+  # Pour les conteneurs d'applications frontales
+  # nécessitant d'être accessible depuis le proxy
+  apps_front:
+    name: apps_front
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 8.0.1.0/26
