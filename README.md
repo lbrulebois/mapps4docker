@@ -65,3 +65,46 @@ Exemple :
 ```shell
 ./stop.sh -r
 ```
+
+## Module `proxy`
+
+Ce module permet d'activer ou désactiver la fonctionnalité de proxy pour Docker et est autonome.
+Son installation ou sa configuration ne sont pas nécessaires si vous n'utilisez pas ce module.
+
+### Configuration
+
+Pour configurer ce module, il vous faut au préalable référencer dans `proxy/config.ini` les valeurs suivantes :
+* `DAEMON_PROXY_DIR` = le répertoire des fichiers de configuration du daemon de Docker
+* `DOCKER_CONFIG_DIR` = le répertoire du fichier `config.json` permettant de configurer Docker
+Si une des valeurs ci-dessus n'est pas renseignée alors elle ne pourra pas être utilisée pour gérer le proxy.
+
+Si vous avez configuré `DAEMON_PROXY_DIR`, il vous faudra compléter avec vos valeurs le fichier `proxy/conf/http-proxy.conf`.
+Si vous avez configuré `DOCKER_CONFIG_DIR`, il vous faudra compléter avec vos valeurs les fichiers `proxy/conf/proxy_confif.json` et `proxy/conf/noproxy_config.json`.
+
+### `enable.sh` : Activer le module
+Pour ce faire il faut utiliser le script `enable.sh`.
+Exemple :
+```shell
+./proxy/enable.sh -y
+```
+
+### Auto-acceptation (`-y`)
+Permet de spécifier que vous acceptez d'office le redémarrage de l'instance Docker pour activer le module
+Exemple :
+```shell
+./proxy/enable.sh -y
+```
+
+### `disable.sh` : Désactiver le module
+Pour ce faire il faut utiliser le script `disable.sh`.
+Exemple :
+```shell
+./proxy/disable.sh -y
+```
+
+### Auto-acceptation (`-y`)
+Permet de spécifier que vous acceptez d'office le redémarrage de l'instance Docker pour désactiver le module
+Exemple :
+```shell
+./proxy/disable.sh -y
+```

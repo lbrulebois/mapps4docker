@@ -54,7 +54,7 @@ echo "  - REMOVE  = $REMOVE"
 if [ ! -f "$CONFIG" ]
 then
     echo "[ERR] Le fichier '$CONFIG' n'existe pas ou plus..."
-    exit 1
+    exit 2
 fi
 
 # 2) On parse le fichier CSV pour extraire l'ensemble des
