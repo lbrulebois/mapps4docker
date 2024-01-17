@@ -88,12 +88,12 @@ echo "[INF] Début de la désactivation du proxy..."
 if [ ! -z "$DAEMON_PROXY_DIR" ] 
 then
     sudo rm -f "$DAEMON_PROXY_DIR/http-proxy.conf"
-    sudo echo "[Service]" > "$DAEMON_PROXY_DIR/http-proxy.conf"
+    echo "[Service]" | sudo tee  "$DAEMON_PROXY_DIR/http-proxy.conf" > /dev/null
 fi
 
 if [ ! -z "$DOCKER_CONFIG_DIR" ] 
 then
     sudo cp "$NOPROXY_CONFJSON_FILEPATH" "$DOCKER_CONFIG_DIR/config.json"
 fi
-sudo systemctl daemon-reload ; sudo systemctl restart docker
+
 echo "[INF] Fin de la désactivation du proxy..."
